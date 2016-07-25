@@ -305,11 +305,11 @@
   NSMutableArray *predicateStrings = [NSMutableArray arrayWithCapacity:3];
   if (title != (id)[NSNull null] && title.length > 0) {
     title = [title stringByReplacingOccurrencesOfString:@"'" withString:@"\\'"];
-    [predicateStrings addObject:[NSString stringWithFormat:@"title contains[c] '%@'", title]];
+    [predicateStrings addObject:[NSString stringWithFormat:@"title == '%@'", title]];
   }
   if (location != (id)[NSNull null] && location.length > 0) {
     location = [location stringByReplacingOccurrencesOfString:@"'" withString:@"\\'"];
-    [predicateStrings addObject:[NSString stringWithFormat:@"location contains[c] '%@'", location]];
+    [predicateStrings addObject:[NSString stringWithFormat:@"location contains == '%@'", location]];
   }
   if (notes != (id)[NSNull null] && notes.length > 0) {
     notes = [notes stringByReplacingOccurrencesOfString:@"'" withString:@"\\'"];
