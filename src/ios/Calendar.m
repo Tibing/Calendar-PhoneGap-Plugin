@@ -281,7 +281,7 @@
     NSError *error = NULL;
     for (EKEvent * event in matchingEvents) {
       // NOTE: as per issue #150 you can delete this event AND future events by passing span:EKSpanFutureEvents
-      [self.eventStore removeEvent:event span:EKSpanThisEvent error:&error];
+      [self.eventStore removeEvent:event span:EKSpanFutureEvents error:&error];
     }
 
     CDVPluginResult *pluginResult = nil;
