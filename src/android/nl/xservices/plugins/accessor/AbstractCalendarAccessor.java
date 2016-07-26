@@ -462,7 +462,7 @@ public abstract class AbstractCalendarAccessor {
     values.put(Events.EVENT_LOCATION, location);
 
     if (recurrence != null) {
-      if (recurrenceEndTime == null) {
+      if (recurrenceEndTime == null || recurrenceEndTime == 0) {
         values.put(Events.RRULE, "FREQ=" + recurrence.toUpperCase() + ";INTERVAL=" + recurrenceInterval);
       } else {
         final SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd'T'hhmmss'Z'");

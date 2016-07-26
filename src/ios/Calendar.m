@@ -467,6 +467,7 @@
   NSNumber* recurrenceIntervalAmount = [calOptions objectForKey:@"recurrenceInterval"];
   NSString* calendarName = [calOptions objectForKey:@"calendarName"];
   NSString* url = [calOptions objectForKey:@"url"];
+  NSDictionary* attendeesList = [calOptions objectForKey:@"attendees"];
 
   [self.commandDelegate runInBackground: ^{
     EKEvent *myEvent = [EKEvent eventWithEventStore: self.eventStore];
@@ -545,6 +546,23 @@
       }
       [myEvent addRecurrenceRule:rule];
     }
+      
+    if (attendeesList != (id)[NSNull null]) {
+        NSMutableArray *attendees = [NSMutableArray new];
+        for(id attendee in attendeesList){
+            //Initialize a EKAttendee object, which is not accessible and inherits from EKParticipant
+            Class className = NSClassFromString(@"EKAttendee");
+            id attendeeObject = [className new];
+            //Set the properties of this attendee using setValue:forKey:
+            [attendeeObject setValue:[[attendeesList objectForKey:attendee] objectForKey:@"firstName"] forKey:@"firstName"];
+            [attendeeObject setValue:[[attendeesList objectForKey:attendee] objectForKey:@"lastName"] forKey:@"lastName"];
+            [attendeeObject setValue:[[attendeesList objectForKey:attendee] objectForKey:@"emailAddress"] forKey:@"emailAddress"];
+            [attendees addObject:attendeeObject];
+        }
+          
+        //Finally, add the invitees to the event
+        [myEvent setValue:attendees forKey:@"attendees"];
+      }
 
     NSError *error = nil;
     [self.eventStore saveEvent:myEvent span:EKSpanThisEvent error:&error];
