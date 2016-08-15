@@ -309,7 +309,7 @@
   }
   if (location != (id)[NSNull null] && location.length > 0) {
     location = [location stringByReplacingOccurrencesOfString:@"'" withString:@"\\'"];
-    [predicateStrings addObject:[NSString stringWithFormat:@"location contains == '%@'", location]];
+    [predicateStrings addObject:[NSString stringWithFormat:@"location == '%@'", location]];
   }
   if (notes != (id)[NSNull null] && notes.length > 0) {
     notes = [notes stringByReplacingOccurrencesOfString:@"'" withString:@"\\'"];
