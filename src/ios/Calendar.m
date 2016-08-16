@@ -313,6 +313,7 @@
   }
   if (notes != (id)[NSNull null] && notes.length > 0) {
     notes = [notes stringByReplacingOccurrencesOfString:@"'" withString:@"\\'"];
+    notes = [notes stringByReplacingOccurrencesOfString:@"\n" withString:@"\\n"];
     [predicateStrings addObject:[NSString stringWithFormat:@"notes contains[c] '%@'", notes]];
   }
 
