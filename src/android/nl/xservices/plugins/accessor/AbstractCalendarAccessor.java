@@ -295,7 +295,7 @@ public abstract class AbstractCalendarAccessor {
     private Map<String, Event> fetchEventsAsMap(Event[] instances) {
         // Only selecting from active calendars, no active calendars = no events.
         String[] activeCalendarIds = getActiveCalendarIds();
-        if (activeCalendarIds.length == 0) {
+        if (activeCalendarIds == null || activeCalendarIds.length == 0) {
             return null;
         }
         String[] projection = new String[]{
@@ -379,7 +379,7 @@ public abstract class AbstractCalendarAccessor {
     private Map<String, ArrayList<Attendee>> fetchAttendeesForEventsAsMap(
             String[] eventIds) {
         // At least one id.
-        if (eventIds.length == 0) {
+        if (eventIds == null || eventIds.length == 0) {
             return null;
         }
         String[] projection = new String[]{
