@@ -347,19 +347,19 @@ public abstract class AbstractCalendarAccessor {
                     String[] rrule_rules = cursor.getString(cols[6]).split(";");
                     for (String rule : rrule_rules) {
                         String rule_type = rule.split("=")[0];
-                        if (rule_type.equals("FREQ")) {
+                        if (rule_type != null && rule_type.equals("FREQ")) {
                             event.recurrenceFreq = rule.split("=")[1];
-                        } else if (rule_type.equals("INTERVAL")) {
+                        } else if (rule_type != null && rule_type.equals("INTERVAL")) {
                             event.recurrenceInterval = rule.split("=")[1];
-                        } else if (rule_type.equals("WKST")) {
+                        } else if (rule_type != null && rule_type.equals("WKST")) {
                             event.recurrenceWeekstart = rule.split("=")[1];
-                        } else if (rule_type.equals("BYDAY")) {
+                        } else if (rule_type != null && rule_type.equals("BYDAY")) {
                             event.recurrenceByDay = rule.split("=")[1];
-                        } else if (rule_type.equals("BYMONTHDAY")) {
+                        } else if (rule_type != null && rule_type.equals("BYMONTHDAY")) {
                             event.recurrenceByMonthDay = rule.split("=")[1];
-                        } else if (rule_type.equals("UNTIL")) {
+                        } else if (rule_type != null && rule_type.equals("UNTIL")) {
                             event.recurrenceUntil = rule.split("=")[1];
-                        } else if (rule_type.equals("COUNT")) {
+                        } else if (rule_type != null && rule_type.equals("COUNT")) {
                             event.recurrenceCount = rule.split("=")[1];
                         } else {
                             Log.d(LOG_TAG, "Missing handler for " + rule);
@@ -495,7 +495,7 @@ public abstract class AbstractCalendarAccessor {
                               Integer calendarId, String url) {
         ContentResolver cr = this.cordova.getActivity().getContentResolver();
         ContentValues values = new ContentValues();
-        final boolean allDayEvent = allday.equals("true") && isAllDayEvent(new Date(startTime), new Date(endTime));
+        final boolean allDayEvent = allday != null && allday.equals("true") && isAllDayEvent(new Date(startTime), new Date(endTime));
         if (allDayEvent) {
             //all day events must be in UTC time zone per Android specification, getOffset accounts for daylight savings time
             values.put(Events.EVENT_TIMEZONE, "UTC");
@@ -570,7 +570,7 @@ public abstract class AbstractCalendarAccessor {
             Cursor result = contentResolver.query(evuri, new String[]{CalendarContract.Calendars._ID, CalendarContract.Calendars.NAME, CalendarContract.Calendars.CALENDAR_DISPLAY_NAME}, null, null, null);
             if (result != null) {
                 while (result.moveToNext()) {
-                    if (result.getString(1).equals(calendarName) || result.getString(2).equals(calendarName)) {
+                    if ((result.getString(1) != null && result.getString(1).equals(calendarName)) || (result.getString(2) != null && result.getString(2).equals(calendarName))) {
                         result.close();
                         return null;
                     }
@@ -617,7 +617,7 @@ public abstract class AbstractCalendarAccessor {
             Cursor result = contentResolver.query(evuri, new String[]{CalendarContract.Calendars._ID, CalendarContract.Calendars.NAME, CalendarContract.Calendars.CALENDAR_DISPLAY_NAME}, null, null, null);
             if (result != null) {
                 while (result.moveToNext()) {
-                    if (result.getString(1).equals(calendarName) || result.getString(2).equals(calendarName)) {
+                    if ((result.getString(1) != null && result.getString(1).equals(calendarName)) || (result.getString(2) != null && result.getString(2).equals(calendarName))) {
                         long calid = result.getLong(0);
                         Uri deleteUri = ContentUris.withAppendedId(evuri, calid);
                         contentResolver.delete(deleteUri, null, null);
@@ -656,7 +656,7 @@ public abstract class AbstractCalendarAccessor {
             Cursor result = contentResolver.query(evuri, new String[]{CalendarContract.Calendars._ID, CalendarContract.Calendars.ACCOUNT_NAME}, null, null, null);
             if (result != null) {
                 while (result.moveToNext()) {
-                    if (result.getString(1).equals(fixingAccountName)) {
+                    if (result.getString(1) != null && result.getString(1).equals(fixingAccountName)) {
                         long calid = result.getLong(0);
                         Uri deleteUri = ContentUris.withAppendedId(evuri, calid);
                         contentResolver.delete(deleteUri, null, null);
