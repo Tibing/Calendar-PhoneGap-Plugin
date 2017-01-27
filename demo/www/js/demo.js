@@ -3,6 +3,7 @@
 var title = 'My Event Title';
 var loc = 'My Event Location';
 var notes = 'My interesting Event notes.';
+var events_num = 0;
 var startDate = new Date();
 var endDate = new Date();
 var calendarName = 'MyCal';
@@ -76,11 +77,12 @@ function deleteCalendar() {
 }
 
 function deleteEvent() {
-  window.plugins.calendar.deleteEvent(title, loc, notes, startDate, endDate, onSuccess, onError);
+  window.plugins.calendar.deleteEvent(title, loc, notes + prompt('Event numb:'), startDate, endDate, onSuccess, onError);
 }
 
 function createCalendarEvent() {
-  window.plugins.calendar.createEvent(title, loc, notes, startDate, endDate, onSuccess, onError);
+  window.plugins.calendar.createEvent(title, loc, notes + events_num, startDate, endDate, onSuccess, onError);
+  events_num += 1;
 }
 
 function createCalendarEventInteractively() {
